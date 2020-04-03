@@ -1,0 +1,80 @@
+<div id="content">
+    <ng-container *ngIf="servers && servers.length; then serversExist; else serversNotExist"></ng-container>
+    <ng-template #serversExist>
+      <button class="btn btn-success btn-lg btn-block" (click)="open(content)">Add Server</button>
+      <br/>
+      <br/>
+      <div class="row card-deck">
+
+        <div *ngFor="let server of servers" class="col-sm-4 mb-3 d-flex align-items-stretch">
+          <app-server-card 
+            [id]="server?.id" 
+            [hostname]="server?.hostname"
+            [domain]="server?.domain" 
+            [os]="server?.os" 
+            (deleteEvent)="delete($event)">
+          </app-server-card>
+        </div>
+      </div>
+
+    </ng-template>
+    <ng-template #serversNotExist>
+      <button class="btn btn-success btn-lg btn-block" (click)="open(content)">Add Server</button>
+      <br/>
+      <br/>
+      <h2>There are no server instances</h2>
+    </ng-template>
+
+    <ng-template #content let-modal>
+        <div class="modal-header text-white bg-primary">
+            <h4 class="modal-title" id="modal-basic-title">{{headerName}}</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="formGroup">
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="hostname">Hostname:</label>
+                  <input type="text" class="form-control" formControlName="hostname" />
+                  <div *ngIf="hostname.errors && isValidFormSubmitted != null && !isValidFormSubmitted">
+                    <span *ngIf="hostname.errors.minlength" class="text-danger">
+                      Server hostname must be at least 1 characters long!
+                    </span>
+                    <span *ngIf="hostname.errors.maxlength" class="text-danger">
+                      Server hostname must be maximum 30 characters long!
+                    </span>
+                    <span *ngIf="hostname.errors.required" class="text-danger">
+                      Server hostname is required!
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="os">OS: </label>
+                  <select class="dropdown-select form-control" formControlName="os">
+                    <option value="LINUX">LINUX</option>
+                    <option value="WINDOWS">WINDOWS</option>
+                    <option value="BSD">BSD</option>
+                    <option value="OTHER">OTHER</option>
+                  </select>
+                  <div *ngIf="os.errors && isValidFormSubmitted != null && !isValidFormSubmitted">
+                    <span *ngIf="os.errors.required" class="text-danger"> Server os is required!</span>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="domain">Domain: </label>
+                  <input type="text" class="form-control" placeholder="example.com" formControlName="domain"/>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success" (click)="onFormSubmit()">Create</button>
+          </div>
+    </ng-template>
+    
+
+  </div>

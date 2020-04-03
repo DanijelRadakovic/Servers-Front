@@ -1,0 +1,14 @@
+<div class="card text-white bg-primary">
+  
+    <div class="card-body">
+      <h4 class="card-title text-center">{{server.hostname}}</h4>
+      <img class="card-img-top" [src]="image" alt="server image">
+      <p class="card-text text-center">Domain: {{server.domain}}</p>
+      <p class="card-text text-center">OS: {{server.os}}</p>
+    </div>
+    
+    <div class="card-footer text-center">
+      <button class="btn btn-danger w-50" (click)="delete(server.id)">Delete</button>
+    </div>
+  
+  </div>
