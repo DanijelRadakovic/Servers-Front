@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ServerService {
 
-  private url = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api;
+  private url = environment.apiUrl;
 
   constructor(private http: HttpClient) {
   }
